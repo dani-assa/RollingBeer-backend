@@ -1,0 +1,25 @@
+{
+  "name": "rollingbeer-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server/server.js",
+  "scripts": {
+    "dev": "nodemon src/server/server.js ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.4",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "moongose": "^1.0.0",
+    "morgan": "^1.10.0",
+    "nodemon": "^3.0.3",
+    "zod": "^3.22.4"
+  }
+}
