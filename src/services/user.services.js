@@ -11,9 +11,6 @@ const getUserByIdService = async (id) => {
   return await User.findById(id);
 };
 
-const getUserByDniService = async (id, dni) => {
-  return await User.findByIdAndUpdate(id, dni);
-};
 
 // const loginService = async (dni, password ) => {
 //   User.findOne(dni);
@@ -57,6 +54,5 @@ module.exports = {
   editUserByIdService,
   deleteUserService,
   // loginService,
-  getUserByDniService,
   createAccessToken
 };

@@ -36,7 +36,6 @@ const create = async (req, res) => {
       userName,
       email,
       password,
-      // passwordCheck
     } = req.body;
 
     const userFound = await User.findOne({ email });
@@ -67,14 +66,15 @@ const create = async (req, res) => {
       role: userSaved.role,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json(error.message);
   }
 };
 
 const login = async (req, res) => {
   try {
-    const { dni, password } = req.body;
-    const userFound = await User.findOne({ dni });
+    const { email, password } = req.body;
+    const userFound = await User.findOne({ email });
     if (!userFound) return res.status(400).json(["Usuario no existente."]);
     const isMatch = await bcrypt.compare(password, userFound.password);
     if (!isMatch)
@@ -85,7 +85,7 @@ const login = async (req, res) => {
     res.status(201).json({
       id: userFound._id,
       name: userFound.name,
-      dni: userFound.dni,
+      userName: userFound.userName,
       email: userFound.email,
       role: userFound.role,
       createdAt: userFound.createdAt,
@@ -107,7 +107,43 @@ const logout = (req, res) => {
   }
 };
 
+const editById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const payload = req.body;
+    const queryOptions = {
+      returnDocument: "after",
+    };
+    const response = await editUserByIdService(id, payload, queryOptions);
+    if (!response) return res.status(404).json("Usuario no existente");
+    res.status(200).json("Usuario editado con exito");
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
 
+const deleteById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const response = await deleteUserService(id);
+    if (!response) return res.status(404).json("Usuario no existente");
+    res.status(204).json();
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+const admin = async (req, res) => {
+  const userFound = await User.findById(req.user.id);
+  if (!userFound) return res.status(400).json("Usuario no existente");
+  return res.json({
+    id: userFound._id,
+    userName: userFound.userName,
+    email: userFound.email,
+    createdAt: userFound.createdAt,
+    updatedAt: userFound.updatedAt,
+  });
+};
 
 const verifyToken = async (req, res) => {
   try {
@@ -123,7 +159,7 @@ const verifyToken = async (req, res) => {
       return res.json({
         id: userFound._id,
         name: userFound.name,
-        dni: userFound.dni,
+        userName: userFound.userName,
         email: userFound.email,
         role: userFound.role,
       });
@@ -140,5 +176,8 @@ module.exports = {
   create,
   login,
   logout,
+  editById,
+  deleteById,
+  admin,
   verifyToken,
 };

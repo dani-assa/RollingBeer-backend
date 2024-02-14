@@ -5,6 +5,9 @@ const {
   create,
   login,
   logout,
+  editById,
+  deleteById,
+  admin,
   verifyToken,
 } = require("../controllers/user.controllers");
 const route = Router();
@@ -21,6 +24,14 @@ route.post("/login", validateSchema(loginSchema), login);
 route.post("/logout", logout);
 
 route.post("/create", validateSchema(registerSchema), create);
+
+route.patch("/editById/:id", editById);
+
+route.patch("/disable/:id", editById);
+
+route.delete("/delete/:id", deleteById);
+
+route.get("/admin", userRequired, admin);
 
 route.get("/verifyToken", verifyToken);
 

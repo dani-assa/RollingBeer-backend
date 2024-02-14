@@ -20,8 +20,8 @@ const registerSchema = z.object({
 });
 
 const loginSchema = z.object({
-  dni: z.string({
-    required_error: 'El DNI es requerido'
+  email: z.string({
+    required_error: 'El email es requerido'
   }),
   password: z.string({
     required_error: 'La contraseña es requerida'
