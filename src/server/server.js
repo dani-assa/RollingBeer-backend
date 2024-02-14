@@ -11,15 +11,15 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: "*",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
 app.use(cookieParser());
 
-// const userRoutes = require("../routes/user.routes");
+const userRoutes = require("../routes/user.routes");
 
-// app.use("/api/users", userRoutes);
+app.use("/api/users", userRoutes);
 
 app.listen(port, () => {
   console.log(`Estamos escuchando el puerto ${port}`);
