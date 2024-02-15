@@ -19,7 +19,7 @@ app.use(cookieParser());
 
 const userRoutes = require("../routes/user.routes");
 
-app.use("/api/users", userRoutes);
+app.use("/api/user", userRoutes);
 
 app.listen(port, () => {
   console.log(`Estamos escuchando el puerto ${port}`);
