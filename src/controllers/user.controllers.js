@@ -33,9 +33,12 @@ const create = async (req, res) => {
   try {
     const {
       name,
-      userName,
+      lastName,
       email,
+      dni,
+      userName,
       password,
+      // passwordCheck
     } = req.body;
 
     const userFound = await User.findOne({ email });
@@ -47,8 +50,10 @@ const create = async (req, res) => {
     const passwordHash = await bcrypt.hash(password, 10);
     const newUser = new User({
       name,
-      userName,
+      lastName,
       email,
+      userName,
+      dni,
       password: passwordHash,
       // passwordCheck: passwordHash
     });
@@ -60,13 +65,13 @@ const create = async (req, res) => {
       id: userSaved._id,
       name: userSaved.name,
       userName: userSaved.userName,
+      dni: userSaved.dni,
       email: userSaved.email,
       createdAt: userSaved.createdAt,
       updatedAt: userSaved.updatedAt,
       role: userSaved.role,
     });
   } catch (error) {
-    console.log(error);
     res.status(500).json(error.message);
   }
 };

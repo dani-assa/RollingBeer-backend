@@ -14,6 +14,10 @@ const userSchema = new Schema(
       type: String,
       required: [true, "El campo es requerido"],
     },
+    dni: {
+      type: String,
+      required: [true, "El campo es requerido"]
+    },
     password: {
       type: String,
       required: [true, "El campo es requerido"],
