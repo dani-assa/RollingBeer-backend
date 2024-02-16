@@ -12,7 +12,7 @@ const {
 } = require("../controllers/user.controllers");
 const { userRequired } = require("../validators/validateToken");
 const userValidations = require("../validators/userValidations");
-const { validateFields } = require("../validators/validateFields");
+const validateFields = require("../validators/validateFields.js");
 
 const route = Router();
 
@@ -24,12 +24,7 @@ route.post("/login", login);
 
 route.post("/logout", logout);
 
-route.post(
-  "/create",
-  [userValidations.email, userValidations.password],
-  validateFields,
-  create
-);
+route.post("/create", [userValidations.email, userValidations.password],validateFields, create);
 
 route.patch("/editById/:id", editById);
 

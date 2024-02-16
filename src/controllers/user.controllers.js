@@ -40,11 +40,11 @@ const create = async (req, res) => {
       password,
     } = req.body;
 
-    const userFound = await User.findOne({ email });
-    if (userFound)
-      return res
-        .status(400)
-        .json(["Ya existe un usuario registrado con ese email"]);
+    // const userFound = await User.findOne({ email });
+    // if (userFound)
+    //   return res
+    //     .status(400)
+    //     .json(["Ya existe un usuario registrado con ese email"]);
 
     const passwordHash = await bcrypt.hash(password, 10);
     const newUser = new User({
@@ -54,9 +54,7 @@ const create = async (req, res) => {
       userName,
       dni,
       password: passwordHash,
-      // passwordCheck: passwordHash
     });
-
     const userSaved = await newUser.save();
     const token = await createAccessToken({ id: userSaved._id });
     res.cookie("token", token);
@@ -71,7 +69,7 @@ const create = async (req, res) => {
       role: userSaved.role,
     });
   } catch (error) {
-    res.status(500).json(error.message);
+    res.status(500).json({message: error});
   }
 };
 
