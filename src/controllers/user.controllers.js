@@ -38,7 +38,6 @@ const create = async (req, res) => {
       dni,
       userName,
       password,
-      // passwordCheck
     } = req.body;
 
     const userFound = await User.findOne({ email });
