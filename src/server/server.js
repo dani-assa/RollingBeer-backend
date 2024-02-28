@@ -1,17 +1,13 @@
-import express from "express";
-import dotenv from "dotenv";
-import "../dbConnection/dbConnection.js";
-import morgan from "morgan";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-import userRoutes from "../routes/user.routes";
-
+import  express from "express";
 const app = express();
-dotenv.config();
-
-
+import  dotenv  from 'dotenv';
+import '../dbConenection/dbConnection.js'
 const port = parseInt(process.env.PORT) || 8000;
+import morgan from 'morgan';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
+dotenv.config();
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(
@@ -21,6 +17,8 @@ app.use(
   })
 );
 app.use(cookieParser());
+
+import userRoutes from "../routes/user.routes.js";
 
 app.use("/api/user", userRoutes);
 

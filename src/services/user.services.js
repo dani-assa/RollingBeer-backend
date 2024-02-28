@@ -1,22 +1,22 @@
-import   { User, find, findById, findByIdAndUpdate, findByIdAndDelete } from "../models/user.model";
+import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
-import { sign } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 const TOKEN = process.env.TOKEN_SECRET;
 
-const getAllUserService = async () => {
+export const getAllUserService = async () => {
   return await find();
 };
 
-const getUserByIdService = async (id) => {
+export const getUserByIdService = async (id) => {
   return await findById(id);
 };
 
-const createUserService = async (newUser) => {
+export const createUserService = async (newUser) => {
   const createUser = new User(newUser);
   return await createUser.save();
 };
 
-const createAccessToken = async (payload) => {
+export const createAccessToken = async (payload) => {
   return await new Promise((resolve, reject) => {
     sign(
       payload,
@@ -32,19 +32,12 @@ const createAccessToken = async (payload) => {
   });
 };
 
-const editUserByIdService = async (id, payload, queryOptions) => {
+export const editUserByIdService = async (id, payload, queryOptions) => {
   return await findByIdAndUpdate(id, payload, queryOptions);
 };
 
-const deleteUserService = async (id) => {
+export const deleteUserService = async (id) => {
   return findByIdAndDelete(id);
 };
 
-export default {
-  getAllUserService,
-  getUserByIdService,
-  createUserService,
-  editUserByIdService,
-  deleteUserService,
-  createAccessToken,
-};
+
