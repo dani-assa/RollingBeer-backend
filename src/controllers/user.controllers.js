@@ -1,13 +1,9 @@
-const User = require("../models/user.model");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import User from "../models/user.model";
+import { hash, compare } from "bcryptjs";
+import { verify } from "jsonwebtoken";
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
-const {
-  getAllUserService,
-  getUserByIdService,
-  createAccessToken,
-} = require("../services/user.services");
+import { getAllUserService, getUserByIdService, createAccessToken } from "../services/user.services";
 
 const getAll = async (req, res) => {
   try {
@@ -46,7 +42,7 @@ const create = async (req, res) => {
     //     .status(400)
     //     .json(["Ya existe un usuario registrado con ese email"]);
 
-    const passwordHash = await bcrypt.hash(password, 10);
+    const passwordHash = await hash(password, 10);
     const newUser = new User({
       name,
       lastName,
@@ -78,7 +74,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const userFound = await User.findOne({ email });
     if (!userFound) return res.status(400).json(["Usuario no existente."]);
-    const isMatch = await bcrypt.compare(password, userFound.password);
+    const isMatch = await compare(password, userFound.password);
     if (!isMatch)
       return res.status(400).json(["Usuario y/o contraseña incorrectos."]);
 
@@ -152,7 +148,7 @@ const verifyToken = async (req, res) => {
     const { token } = req.cookies;
 
     if (!token) return res.status(401).json({ message: "No autorizado" });
-    jwt.verify(token, TOKEN_SECRET, async (error, user) => {
+    verify(token, TOKEN_SECRET, async (error, user) => {
       if (error) return res.status(401).json({ message: "No autorizado" });
 
       const userFound = await User.findById(user.id);
@@ -172,7 +168,7 @@ const verifyToken = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   getAll,
   getById,
   create,

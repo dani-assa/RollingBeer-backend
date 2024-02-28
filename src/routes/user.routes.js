@@ -9,7 +9,7 @@ const {
   deleteById,
   admin,
   verifyToken,
-} = require("../controllers/user.controllers");
+} = require("../controllers/user.controllers").default;
 const { userRequired } = require("../validators/validateToken");
 const userValidations = require("../validators/userValidations");
 const validateFields = require("../validators/validateFields.js");

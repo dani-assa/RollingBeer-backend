@@ -1,12 +1,16 @@
-const express = require("express");
+import express from "express";
+import dotenv from "dotenv";
+import "../dbConnection/dbConnection.js";
+import morgan from "morgan";
+import cors from "cors";
+import cookieParser from "cookie-parser";
+import userRoutes from "../routes/user.routes";
+
 const app = express();
-require("dotenv").config();
-require("../dbConenection/dbConnection");
+dotenv.config();
+
+
 const port = parseInt(process.env.PORT) || 8000;
-const morgan = require("morgan");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const userRoutes = require("../routes/user.routes");
 
 app.use(express.json());
 app.use(morgan("dev"));

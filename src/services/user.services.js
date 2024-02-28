@@ -1,14 +1,14 @@
-const User = require("../models/user.model");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import   { User, find, findById, findByIdAndUpdate, findByIdAndDelete } from "../models/user.model";
+import bcrypt from "bcryptjs";
+import { sign } from "jsonwebtoken";
 const TOKEN = process.env.TOKEN_SECRET;
 
 const getAllUserService = async () => {
-  return await User.find();
+  return await find();
 };
 
 const getUserByIdService = async (id) => {
-  return await User.findById(id);
+  return await findById(id);
 };
 
 const createUserService = async (newUser) => {
@@ -18,7 +18,7 @@ const createUserService = async (newUser) => {
 
 const createAccessToken = async (payload) => {
   return await new Promise((resolve, reject) => {
-    jwt.sign(
+    sign(
       payload,
       TOKEN,
       {
@@ -33,14 +33,14 @@ const createAccessToken = async (payload) => {
 };
 
 const editUserByIdService = async (id, payload, queryOptions) => {
-  return await User.findByIdAndUpdate(id, payload, queryOptions);
+  return await findByIdAndUpdate(id, payload, queryOptions);
 };
 
 const deleteUserService = async (id) => {
-  return User.findByIdAndDelete(id);
+  return findByIdAndDelete(id);
 };
 
-module.exports = {
+export default {
   getAllUserService,
   getUserByIdService,
   createUserService,
