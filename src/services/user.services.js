@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-const TOKEN = process.env.TOKEN_SECRET;
+export const { TOKEN } = process.env.TOKEN_SECRET;
 
 export const getAllUserService = async () => {
   return await find();
