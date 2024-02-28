@@ -1,13 +1,9 @@
-const User = require("../models/user.model");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
+import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
-const {
-  getAllUserService,
-  getUserByIdService,
-  createAccessToken,
-} = require("../services/user.services");
+import { getAllUserService, getUserByIdService, createAccessToken } from "../services/user.services.js";
 
 const getAll = async (req, res) => {
   try {
@@ -79,7 +75,7 @@ const login = async (req, res) => {
     const userFound = await User.findOne({ email });
     console.log(userFound);
     if (!userFound) return res.status(400).json(["Usuario no existente."]);
-    const isMatch = await bcrypt.compare(password, userFound.password);
+    const isMatch = await compare(password, userFound.password);
     if (!isMatch)
       return res.status(400).json(["Usuario y/o contraseña incorrectos."]);
 
@@ -173,7 +169,7 @@ const verifyToken = async (req, res) => {
   }
 };
 
-module.exports = {
+export default {
   getAll,
   getById,
   create,

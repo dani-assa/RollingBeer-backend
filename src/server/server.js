@@ -1,13 +1,13 @@
-const express = require("express");
+import  express from "express";
 const app = express();
-require("dotenv").config();
-require("../dbConenection/dbConnection");
+import  dotenv  from 'dotenv';
+import '../dbConenection/dbConnection.js'
 const port = parseInt(process.env.PORT) || 8000;
-const morgan = require("morgan");
-const cors = require("cors");
-const cookieParser = require("cookie-parser");
-const userRoutes = require("../routes/user.routes");
+import morgan from 'morgan';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
+dotenv.config();
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(
@@ -18,6 +18,8 @@ app.use(
   })
 );
 app.use(cookieParser());
+
+import userRoutes from "../routes/user.routes.js";
 
 app.use("/api/user", userRoutes);
 

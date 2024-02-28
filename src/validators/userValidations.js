@@ -1,18 +1,18 @@
-const { body } = require("express-validator");
-const User = require("../models/user.model");
-const passRegex = require('../helpers/passwordRegex')
+import { body } from "express-validator";
+import User from '../models/user.model.js';
+import passRegex from '../helpers/passwordRegex.js';
 
 const userValidations = {
   email: body("email")
-  .isEmail()
-  .withMessage('El email no es valido')
-  .not()
-  .isEmpty()
-  .withMessage('Este campo es requerido')
-  ,
+    .isEmail()
+    .withMessage('El email no es valido')
+    .not()
+    .isEmpty()
+    .withMessage('Este campo es requerido'),
   password: body('password')
-  .matches(passRegex)
-  .withMessage('La contraseña no es valida')
+    .matches(passRegex)
+    .withMessage('La contraseña no es valida')
 };
 
-module.exports = userValidations;
+export default userValidations;
+

@@ -1,4 +1,5 @@
-const { Router } = require("express");
+import { Router } from 'express' 
+import userControllers from '../controllers/user.controllers.js';
 const {
   getAll,
   getById,
@@ -9,10 +10,11 @@ const {
   deleteById,
   admin,
   verifyToken,
-} = require("../controllers/user.controllers");
-const { userRequired } = require("../validators/validateToken");
-const userValidations = require("../validators/userValidations");
-const validateFields = require("../validators/validateFields.js");
+} = userControllers;
+import  userRequired  from '../validators/validateToken.js';
+import  userValidations from '../validators/userValidations.js';
+import validateFields from '../validators/validateFields.js';
+
 
 const route = Router();
 
@@ -36,4 +38,4 @@ route.get("/admin", userRequired, admin);
 
 route.get("/verifyToken", verifyToken);
 
-module.exports = route;
+export default route;
