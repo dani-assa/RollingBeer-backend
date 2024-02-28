@@ -3,7 +3,7 @@ import Product from '../models/product.model.js';
 import { nameMenu, imageMenu, priceMenu, cantidadMenu, descriptionMenu } from '../helpers/productRegex.js';
 
 const nameMenuValidation = async (nameMenu) => {
-  const nameMenuExist = await productSchema.find({ nameMenu: nameMenu});
+  const nameMenuExist = await productSchema.findOne({ nameMenu: nameMenu});
 
   if (nameMenuExist.length !== 0 ) {
     throw new Error(`El nombre ${nameMenu} ya esta registrado`);
@@ -13,7 +13,7 @@ const nameMenuValidation = async (nameMenu) => {
 };
 
 const imageMenuValidation = async (imageMenu) => {
-  const imageMenuExist = await productSchema.find({ imageMenu: imageMenu});
+  const imageMenuExist = await productSchema.findOne({ imageMenu: imageMenu});
 
   if (imageMenuExist.length !== 0 ) {
     throw new Error(`La ${imageMenu} ya esta registrada`);
@@ -43,7 +43,7 @@ const cantidadMenuValidation = async (cantidadMenu) => {
 };
 
 const descriptionMenuValidation = async (descriptionMenu) => {
-  const descriptionMenuExist = await productSchema.find({ descriptionMenu: descriptionMenu});
+  const descriptionMenuExist = await productSchema.findOne({ descriptionMenu: descriptionMenu});
 
   if (descriptionMenuExist.length <= 0 ) {
     throw new Error(`La ${descriptionMenu} requerida`);
@@ -52,51 +52,47 @@ const descriptionMenuValidation = async (descriptionMenu) => {
   return false;
 };
 
+const categoryMenuValidation = async (categoryMenu) => {
+  const categoryMenuExist = await productSchema.findOne({ categoryMenu: categoryMenu});
+
+  if (categoryMenuExist.length <= 0 ) {
+    throw new Error(`La ${categoryMenu} es requerida`);
+  }; 
+
+  return false;
+};
+
+
 export const nameMenusValidation = {
   nameMenu: body("nameMenu")
-    .isnameMenu()
-    .matches(nameMenu)
-    .withMessage("El nombre no es valido")
-    .not()
-    .isEmpty()
-    .withMessage("Este campo es requerido")
+    .notEmpty()
+    .withMessage("El nombre no puede estar vacío")
     .custom(nameMenuValidation),
   
   imageMenu: body("imageMenu")
-  .isimageMenu()
-  .matches(imageMenu)
-  .withMessage("La URL no es valida")
-  .not()
-  .isEmpty()
-  .withMessage("Este campo es requerido")
-  .custom(imageMenuValidation),
+    .notEmpty()
+    .withMessage("La URL de la imagen no puede estar vacía")
+    .custom(imageMenuValidation),
+
+  categoryMenu: body("categoryMenu")
+    .notEmpty()
+    .withMessage("La categoria no puede estar vacia")
+    .custom(categoryMenuValidation),
 
   priceMenu: body("priceMenu")
-  .ispriceMenu()
-  .matches(priceMenu)
-  .withMessage("El precio no es valido")
-  .not()
-  .isEmpty()
-  .withMessage("Este campo es requerido")
-  .custom(priceMenuValidation),
+    .notEmpty()
+    .withMessage("El precio no puede estar vacío")
+    .custom(priceMenuValidation),
 
   cantidadMenu: body("cantidadMenu")
-  .iscantidadMenu()
-  .matches(cantidadMenu)
-  .withMessage("La cantidad no es valido")
-  .not()
-  .isEmpty()
-  .withMessage("Este campo es requerido")
-  .custom(cantidadMenuValidation),
+    .notEmpty()
+    .withMessage("La cantidad no puede estar vacía")
+    .custom(cantidadMenuValidation),
 
   descriptionMenu: body("descriptionMenu")
-  .isdescriptionMenu()
-  .matches(descriptionMenu)
-  .withMessage("La descripcion no es valida")
-  .not()
-  .isEmpty()
-  .withMessage("Este campo es requerido")
-  .custom(descriptionMenuValidation),
-
+    .notEmpty()
+    .withMessage("La descripción no puede estar vacía")
+    .custom(descriptionMenuValidation),
 }
+
 
