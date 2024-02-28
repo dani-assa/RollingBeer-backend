@@ -1,9 +1,9 @@
-import User from "../models/user.model";
-import { hash, compare } from "bcryptjs";
-import { verify } from "jsonwebtoken";
+import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
-import { getAllUserService, getUserByIdService, createAccessToken } from "../services/user.services";
+import { getAllUserService, getUserByIdService, createAccessToken } from "../services/user.services.js";
 
 const getAll = async (req, res) => {
   try {
@@ -42,7 +42,7 @@ const create = async (req, res) => {
     //     .status(400)
     //     .json(["Ya existe un usuario registrado con ese email"]);
 
-    const passwordHash = await hash(password, 10);
+    const passwordHash = await bcrypt.hash(password, 10);
     const newUser = new User({
       name,
       lastName,
@@ -148,7 +148,7 @@ const verifyToken = async (req, res) => {
     const { token } = req.cookies;
 
     if (!token) return res.status(401).json({ message: "No autorizado" });
-    verify(token, TOKEN_SECRET, async (error, user) => {
+    jwt.verify(token, TOKEN_SECRET, async (error, user) => {
       if (error) return res.status(401).json({ message: "No autorizado" });
 
       const userFound = await User.findById(user.id);

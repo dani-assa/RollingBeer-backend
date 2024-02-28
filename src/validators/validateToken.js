@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken');
+import jwt from 'jsonwebtoken';
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
 
@@ -14,6 +14,4 @@ const userRequired = (req, res, next) => {
   })
 };
 
-module.exports = {
-  userRequired
-};
+export default userRequired;
