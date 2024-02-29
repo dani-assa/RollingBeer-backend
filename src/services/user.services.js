@@ -1,7 +1,9 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-export const { TOKEN } = process.env.TOKEN_SECRET;
+export const TOKEN = process.env.TOKEN_SECRET;
+
+
 
 export const getAllUserService = async () => {
   return await find();
@@ -18,7 +20,7 @@ export const createUserService = async (newUser) => {
 
 export const createAccessToken = async (payload) => {
   return await new Promise((resolve, reject) => {
-    sign(
+    jwt.sign(
       payload,
       TOKEN,
       {
@@ -39,5 +41,3 @@ export const editUserByIdService = async (id, payload, queryOptions) => {
 export const deleteUserService = async (id) => {
   return findByIdAndDelete(id);
 };
-
-
