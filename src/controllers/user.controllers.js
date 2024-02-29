@@ -3,7 +3,12 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
-import { getAllUserService, getUserByIdService, createAccessToken } from "../services/user.services.js";
+
+import {
+  getAllUserService,
+  getUserByIdService,
+  createAccessToken,
+} from "../services/user.services.js";
 
 const getAll = async (req, res) => {
   try {
@@ -27,14 +32,7 @@ const getById = async (req, res) => {
 
 const create = async (req, res) => {
   try {
-    const {
-      name,
-      lastName,
-      email,
-      dni,
-      userName,
-      password,
-    } = req.body;
+    const { name, lastName, email, dni, userName, password } = req.body;
 
     // const userFound = await User.findOne({ email });
     // if (userFound)
@@ -65,7 +63,7 @@ const create = async (req, res) => {
       role: userSaved.role,
     });
   } catch (error) {
-    res.status(500).json({message: error});
+    res.status(500).json({ message: error });
   }
 };
 
@@ -74,7 +72,7 @@ const login = async (req, res) => {
     const { email, password } = req.body;
     const userFound = await User.findOne({ email });
     if (!userFound) return res.status(400).json(["Usuario no existente."]);
-    const isMatch = await compare(password, userFound.password);
+    const isMatch = await bcrypt.compare(password, userFound.password);
     if (!isMatch)
       return res.status(400).json(["Usuario y/o contraseña incorrectos."]);
 
@@ -91,6 +89,7 @@ const login = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json(error.message);
+    console.log(error);
   }
 };
 
