@@ -1,42 +1,42 @@
 import { Schema, model } from 'mongoose';
-import { nameMenu, imageMenu, priceMenu, cantidadMenu, descriptionMenu } from '../helpers/productRegex.js';
+import { nameRegex, imageRegex, priceRegex, cantidadRegex, descriptionRegex } from '../helpers/productRegex.js';
 
 const productSchema = new Schema({
-  nameMenu: {
+  name: {
     type: String,
     required: [true,"Debe ingresar un nombre"],
     minLength: [4,"El nombre es demasiado corto"],
     maxLength: [60, "El nombre es demasiado largo"],
-    match: [nameMenu, "El nombre ingresado es invalido"],
+    match: [nameRegex, "El nombre ingresado es invalido"],
     unique: [true, "Un producto con este nombre ya existe"],
   },
-  categoryMenu:{
+  category:{
     type : String,
     required : [true, "Debe ingresar una categoria"],
     enum : {values: ["Hamburguesa","Sandwich","Para Picar","Bebidas","Wrap"], 
     message: "{VALUE} no es una categoria valida"},
   },
-  imageMenu: {
+  image: {
     type: String,
     required: [true, "Debe ingresar una imagen"],
-    match: [imageMenu, "La imagen ingresada es invalida"],
+    match: [imageRegex, "La imagen ingresada es invalida"],
   },
-  priceMenu: {
+  price: {
     type: Number,
     required: [true, "Debe ingresar un precio"],
     min: [1, "{VALUE} es un valor invalido"],
     max: [10_000_000, "{VALUE} es un valor invalido"],
-    match: [priceMenu, "El precio {VALUE} ingresado es invalido"],
+    match: [priceRegex, "El precio ingresado es invalido"],
   },
-  cantidadMenu: {
+  cantidad: {
     type: String,
     required: [true, "Debe ingresar una cantidad"],
-    match: [cantidadMenu, "La cantidad {VALUE} ingresada es invalida"],
+    match: [cantidadRegex, "La cantidad ingresada es invalida"],
   },
-  descriptionMenu: {
+  description: {
     type: String,
     required: [true, "Debe ingresar una descripcion"],
-    match: [descriptionMenu, "La description ingresada es invalida"],
+    match: [descriptionRegex, "La descripcion ingresada es invalida"],
   },
   visible: {
     type: Boolean,

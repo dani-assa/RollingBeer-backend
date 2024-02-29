@@ -3,7 +3,7 @@ import {verifyUserToken} from "../models/verifyToken.js"
 
 
 export const createProduct = async (req, res) => {
-  const { nameMenu, imageMenu, priceMenu, cantidadMenu, descriptionMenu, categoryMenu } = req.body;
+  const { name, image, price, cantidad, description, category } = req.body;
   // const { userToken } = req;
   
   // if (userToken.role !== "Admin") {
@@ -12,12 +12,12 @@ export const createProduct = async (req, res) => {
 
   try {
     const newProduct = await Product.create({
-      nameMenu: nameMenu,
-      imageMenu: imageMenu,
-      priceMenu: priceMenu,
-      cantidadMenu: cantidadMenu,
-      descriptionMenu: descriptionMenu,
-      categoryMenu: categoryMenu
+      name: name,
+      image: image,
+      price: price,
+      cantidad: cantidad,
+      description: description,
+      category: category
     });
 
     res.status(201).json({ _id: newProduct._id });
@@ -91,25 +91,25 @@ export const edit = async (req, res) => {
 };
 
 export const getProductsWithOptions = async (req, res) => {
-  const { nameMenu, priceMenu, categoryMenu } = req.query;
+  const { name, price, category } = req.query;
   const searchQuery = { visible: true };
   let sortQuery = {};
 
-  if (priceMenu === 'asc' || priceMenu === 'desc') {
-    sortQuery.priceMenu = priceMenu === 'asc' ? 1 : -1;
+  if (price === 'asc' || price === 'desc') {
+    sortQuery.price = price === 'asc' ? 1 : -1;
   }
 
-  if (nameMenu) {
-    const partialMatchName = new RegExp(nameMenu, 'i');
-    searchQuery.nameMenu = partialMatchName;
+  if (name) {
+    const partialMatchName = new RegExp(name, 'i');
+    searchQuery.name = partialMatchName;
   }
 
-  if (priceMenu === 'disc') {
+  if (price === 'disc') {
     searchQuery.discountPercentage = { $exists: true };
   }
 
-  if (categoryMenu) {
-    searchQuery.categoryMenu = categoryMenu;
+  if (category) {
+    searchQuery.category = category;
   }
 
   try {
