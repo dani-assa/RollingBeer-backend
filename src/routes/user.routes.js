@@ -16,26 +16,26 @@ import  userValidations from '../validators/userValidations.js';
 import validateFields from '../validators/validateFields.js';
 
 
-const route = Router();
+const router = Router();
 
-route.get("/getAll", getAll);
+router.get("/getAll", getAll);
 
-route.get("/getById/:id", getById);
+router.get("/getById/:id", getById);
 
-route.post("/login", login);
+router.post("/login", login);
 
-route.post("/logout", logout);
+router.post("/logout", logout);
 
-route.post("/create", [userValidations.email, userValidations.password],validateFields, create);
+router.post("/create", [userValidations.email, userValidations.password],validateFields, create);
 
-route.patch("/editById/:id", editById);
+router.patch("/editById/:id", editById);
 
-route.patch("/disable/:id", editById);
+router.patch("/disable/:id", editById);
 
-route.delete("/delete/:id", deleteById);
+router.delete("/delete/:id", deleteById);
 
-route.get("/admin", userRequired, admin);
+router.get("/admin", userRequired, admin);
 
-route.get("/verifyToken", verifyToken);
+router.get("/verifyToken", verifyToken);
 
-export default route;
+export default router;
