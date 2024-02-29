@@ -1,98 +1,98 @@
 import { body } from 'express-validator';
 import Product from '../models/product.model.js';
-import { nameMenu, imageMenu, priceMenu, cantidadMenu, descriptionMenu } from '../helpers/productRegex.js';
+import { nameRegex, imageRegex, priceRegex, cantidadRegex, descriptionRegex } from '../helpers/productRegex.js';
 
-const nameMenuValidation = async (nameMenu) => {
-  const nameMenuExist = await productSchema.findOne({ nameMenu: nameMenu});
+const nameValidation = async (nameRegex) => {
+  const nameExist = await productSchema.findOne({ nameRegex: nameRegex});
 
-  if (nameMenuExist.length !== 0 ) {
-    throw new Error(`El nombre ${nameMenu} ya esta registrado`);
+  if (nameExist.length !== 0 ) {
+    throw new Error(`El nombre ${nameRegex} ya esta registrado`);
   }; 
 
   return false;
 };
 
-const imageMenuValidation = async (imageMenu) => {
-  const imageMenuExist = await productSchema.findOne({ imageMenu: imageMenu});
+const imageValidation = async (imageRegex) => {
+  const imageExist = await productSchema.findOne({ imageRegex: imageRegex});
 
-  if (imageMenuExist.length !== 0 ) {
-    throw new Error(`La ${imageMenu} ya esta registrada`);
+  if (imageExist.length !== 0 ) {
+    throw new Error(`La ${imageRegex} ya esta registrada`);
   }; 
 
   return false;
 };
 
-const priceMenuValidation = async (priceMenu) => {
-  const priceMenuExist = await productSchema.find({ priceMenu: priceMenu});
+const priceValidation = async (priceRegex) => {
+  const priceExist = await productSchema.find({ priceRegex: priceRegex});
 
-  if (priceMenuExist.length <= 0 ) {
-    throw new Error(`El ${priceMenu} no puede ser negativo`);
+  if (priceExist.length <= 0 ) {
+    throw new Error(`El ${priceRegex} no puede ser negativo`);
   }; 
 
   return false;
 };
 
-const cantidadMenuValidation = async (cantidadMenu) => {
-  const cantidadMenuExist = await productSchema.find({ cantidadMenu: cantidadMenu});
+const cantidadValidation = async (cantidadRegex) => {
+  const cantidadExist = await productSchema.find({ cantidadRegex: cantidadRegex});
 
-  if (cantidadMenuExist.length <= 0 ) {
-    throw new Error(`La ${cantidadMenu} no puede ser negativa`);
+  if (cantidadExist.length <= 0 ) {
+    throw new Error(`La ${cantidadRegex} no puede ser negativa`);
   }; 
 
   return false;
 };
 
-const descriptionMenuValidation = async (descriptionMenu) => {
-  const descriptionMenuExist = await productSchema.findOne({ descriptionMenu: descriptionMenu});
+const descriptionValidation = async (descriptionRegex) => {
+  const descriptionExist = await productSchema.findOne({ descriptionRegex: descriptionRegex});
 
-  if (descriptionMenuExist.length <= 0 ) {
-    throw new Error(`La ${descriptionMenu} requerida`);
+  if (descriptionExist.length <= 0 ) {
+    throw new Error(`La ${descriptionRegex} requerida`);
   }; 
 
   return false;
 };
 
-const categoryMenuValidation = async (categoryMenu) => {
-  const categoryMenuExist = await productSchema.findOne({ categoryMenu: categoryMenu});
+const categoryValidation = async (categoryRegex) => {
+  const categoryExist = await productSchema.findOne({ categoryRegex: categoryRegex});
 
-  if (categoryMenuExist.length <= 0 ) {
-    throw new Error(`La ${categoryMenu} es requerida`);
+  if (categoryExist.length <= 0 ) {
+    throw new Error(`La ${categoryRegex} es requerida`);
   }; 
 
   return false;
 };
 
 
-export const nameMenusValidation = {
-  nameMenu: body("nameMenu")
+export const MenuValidation = {
+  name: body("name")
     .notEmpty()
     .withMessage("El nombre no puede estar vacío")
-    .custom(nameMenuValidation),
+    .custom(nameValidation),
   
-  imageMenu: body("imageMenu")
+  image: body("image")
     .notEmpty()
     .withMessage("La URL de la imagen no puede estar vacía")
-    .custom(imageMenuValidation),
+    .custom(imageValidation),
 
-  categoryMenu: body("categoryMenu")
+  category: body("category")
     .notEmpty()
     .withMessage("La categoria no puede estar vacia")
-    .custom(categoryMenuValidation),
+    .custom(categoryValidation),
 
-  priceMenu: body("priceMenu")
+  price: body("price")
     .notEmpty()
     .withMessage("El precio no puede estar vacío")
-    .custom(priceMenuValidation),
+    .custom(priceValidation),
 
-  cantidadMenu: body("cantidadMenu")
+  cantidad: body("cantidad")
     .notEmpty()
     .withMessage("La cantidad no puede estar vacía")
-    .custom(cantidadMenuValidation),
+    .custom(cantidadValidation),
 
-  descriptionMenu: body("descriptionMenu")
+  description: body("description")
     .notEmpty()
     .withMessage("La descripción no puede estar vacía")
-    .custom(descriptionMenuValidation),
+    .custom(descriptionValidation),
 }
 
 
