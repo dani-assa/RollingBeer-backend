@@ -2,65 +2,63 @@ import { body } from 'express-validator';
 import Product from '../models/product.model.js';
 import { nameRegex, imageRegex, priceRegex, cantidadRegex, descriptionRegex } from '../helpers/productRegex.js';
 
-const nameValidation = async (nameRegex) => {
-  const nameExist = await productSchema.findOne({ nameRegex: nameRegex});
+const nameValidation = body('name').custom(async (value) => {
+  if (!nameRegex.test(value)) {
+    throw new Error('El nombre ingresado es inválido');
+  }
 
-  if (nameExist.length !== 0 ) {
-    throw new Error(`El nombre ${nameRegex} ya esta registrado`);
-  }; 
+  const nameExist = await Product.findOne({ name: value });
+  if (nameExist) {
+    throw new Error(`El nombre ${value} ya está registrado`);
+  }
 
-  return false;
-};
+  return true;
+});
 
-const imageValidation = async (imageRegex) => {
-  const imageExist = await productSchema.findOne({ imageRegex: imageRegex});
+const imageValidation = body('image').custom(async (value) => {
+  if (!imageRegex.test(value)) {
+    throw new Error('La imagen ingresada es inválida');
+  }
 
-  if (imageExist.length !== 0 ) {
-    throw new Error(`La ${imageRegex} ya esta registrada`);
-  }; 
+  const imageExist = await Product.findOne({ image: value });
+  if (imageExist) {
+    throw new Error(`La imagen ${value} ya está registrada`);
+  }
 
-  return false;
-};
+  return true;
+});
 
-const priceValidation = async (priceRegex) => {
-  const priceExist = await productSchema.find({ priceRegex: priceRegex});
+const priceValidation = body('price').custom((value) => {
+  if (!priceRegex.test(value.toString())) {
+    throw new Error('El precio ingresado es inválido');
+  }
 
-  if (priceExist.length <= 0 ) {
-    throw new Error(`El ${priceRegex} no puede ser negativo`);
-  }; 
+  return true;
+});
 
-  return false;
-};
+const cantidadValidation = body('cantidad').custom((value) => {
+  if (!cantidadRegex.test(value.toString())) {
+    throw new Error('La cantidad ingresada es inválida');
+  }
 
-const cantidadValidation = async (cantidadRegex) => {
-  const cantidadExist = await productSchema.find({ cantidadRegex: cantidadRegex});
+  return true;
+});
+const descriptionValidation = body('description').custom(async (value) => {
+  if (!descriptionRegex.test(value)) {
+    throw new Error('La descripción ingresada es inválida');
+  }
 
-  if (cantidadExist.length <= 0 ) {
-    throw new Error(`La ${cantidadRegex} no puede ser negativa`);
-  }; 
+  return true;
+});
 
-  return false;
-};
+const categoryValidation = body('category').custom((value) => {
+  const validCategories = ["Hamburguesa", "Sandwich", "Para Picar", "Bebidas", "Wrap"];
+  if (!validCategories.includes(value)) {
+    throw new Error(`${value} no es una categoría válida`);
+  }
 
-const descriptionValidation = async (descriptionRegex) => {
-  const descriptionExist = await productSchema.findOne({ descriptionRegex: descriptionRegex});
-
-  if (descriptionExist.length <= 0 ) {
-    throw new Error(`La ${descriptionRegex} requerida`);
-  }; 
-
-  return false;
-};
-
-const categoryValidation = async (categoryRegex) => {
-  const categoryExist = await productSchema.findOne({ categoryRegex: categoryRegex});
-
-  if (categoryExist.length <= 0 ) {
-    throw new Error(`La ${categoryRegex} es requerida`);
-  }; 
-
-  return false;
-};
+  return true;
+});
 
 
 export const MenuValidation = {
