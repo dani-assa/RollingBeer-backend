@@ -4,12 +4,10 @@ import jwt from "jsonwebtoken";
 export const TOKEN = process.env.TOKEN_SECRET;
 
 export const getAllProductservices = async () =>{
-
     return await find();
 }
 
 export const createProductService = async (newProduct) => {
-
     const createProduct = new Product(newProduct);
     return await createProduct.save();
 };

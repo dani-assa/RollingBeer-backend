@@ -1,6 +1,5 @@
 import Product from "../models/product.model.js"
-import {verifyUserToken} from "../models/verifyToken.js"
-
+// import {verifyUserToken} from "../models/verifyToken.js"
 
 export const createProduct = async (req, res) => {
   const { name, image, price, cantidad, description, category } = req.body;
