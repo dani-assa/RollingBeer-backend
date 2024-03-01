@@ -22,7 +22,7 @@ export const createProduct = async (req, res) => {
 
     res.status(201).json({ _id: newProduct._id });
   } catch (error) {
-    return res.status(500).json({ message: error });
+    return res.status(500).json({ message: error.message });
   }
   }
 

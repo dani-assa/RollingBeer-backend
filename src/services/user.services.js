@@ -3,8 +3,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 export const TOKEN = process.env.TOKEN_SECRET;
 
-
-
 export const getAllUserService = async () => {
   return await find();
 };
