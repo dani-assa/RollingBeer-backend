@@ -26,7 +26,7 @@ app.use(cookieParser());
 
 
 app.use("/api/user", userRoutes);
-app.use(productRoutes);
+app.use("/api/product",productRoutes);
 
 app.listen(port, () => {
   console.log(`Estamos escuchando el puerto ${port}`);
