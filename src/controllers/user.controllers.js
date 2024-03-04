@@ -3,7 +3,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
-
 import {
   getAllUserService,
   getUserByIdService,
@@ -12,7 +11,8 @@ import {
 
 const getAll = async (req, res) => {
   try {
-    const response = await getAllUserService();
+    // const response = await getAllUserService();
+    const response = await User.find();
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json(error.message);
@@ -111,7 +111,8 @@ const editById = async (req, res) => {
     const queryOptions = {
       returnDocument: "after",
     };
-    const response = await editUserByIdService(id, payload, queryOptions);
+    // const response = await editUserByIdService(id, payload, queryOptions);
+    const response = await User.findByIdAndUpdate(id, payload, queryOptions);
     if (!response) return res.status(404).json("Usuario no existente");
     res.status(200).json("Usuario editado con exito");
   } catch (error) {
