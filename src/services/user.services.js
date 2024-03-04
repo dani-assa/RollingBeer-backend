@@ -33,7 +33,7 @@ export const createAccessToken = async (payload) => {
 };
 
 export const editUserByIdService = async (id, payload, queryOptions) => {
-  return await findByIdAndUpdate(id, payload, queryOptions);
+  return await User.findByIdAndUpdate(id, payload, queryOptions);
 };
 
 export const deleteUserService = async (id) => {
