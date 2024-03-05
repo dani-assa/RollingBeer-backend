@@ -13,11 +13,11 @@ import  validateFields  from "../validators/validateFields.js";
 
 const router = Router();
 
-router.post("/",createProduct);
-router.get("/",getAll);
-router.get("/:id", getById);
-router.get("/search",getProductsWithOptions);
-router.delete("/:id", verifyUserToken , validateFields ,deleteById);
-router.patch("/:id", edit);
+router.post("/create",createProduct);
+router.get("/getAll",getAll);
+router.get("/getById/:id", getById);
+router.get("/productsWithOptions/search",getProductsWithOptions);
+router.delete("/delet/:id", verifyUserToken , validateFields ,deleteById);
+router.patch("/edit/:id", edit);
 
 export default router;
