@@ -9,7 +9,7 @@ import {
         } from "../controllers/product.controllers.js";
 import { verifyUserToken } from "../models/verifyToken.js";
 import  validateFields  from "../validators/validateFields.js";
- 
+
 
 const router = Router();
 
