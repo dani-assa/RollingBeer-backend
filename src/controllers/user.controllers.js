@@ -22,11 +22,13 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
   try {
     const { id } = req.params;
-    const response = await getUserByIdService(id);
+    // const response = await getUserByIdService(_id);
+    const response = await User.findById(id);
     if (!response) return res.status(404).json("Usuario no existente.");
     res.status(200).json(response);
   } catch (error) {
     res.status(500).json(error.message);
+    console.log(error.message);
   }
 };
 
