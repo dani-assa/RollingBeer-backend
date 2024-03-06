@@ -8,7 +8,7 @@ export const getAllUserService = async () => {
 };
 
 export const getUserByIdService = async (id) => {
-  return await findById(id);
+  return await User.findById(id);
 };
 
 export const createUserService = async (newUser) => {
