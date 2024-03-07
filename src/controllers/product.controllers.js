@@ -68,16 +68,16 @@ export const deleteById = async (req, res) => {
   }
 };
 
-export const edit = async (req, res) => {
+export const editById = async (req, res) => {
   const { id } = req.params;
   const payload = req.body;
-  const { userToken } = req;
+  // const { userToken } = req;
   
-  if ( userToken.role !== "Admin") {
-    return res.status(403).json({message: "Acceso denegado"});
-  }
+  // if ( userToken.role !== "Admin") {
+  //   return res.status(403).json({message: "Acceso denegado"});
+  // }
   try {
-    const productUpdate = await Product.findByIdAndUpdate(id, payload);
+    const productUpdate = await Product.findByIdAndUpdate(id, payload,{ visible: false });
 
     if (!productUpdate) {
       return res.status(404).json({ message: "Producto no encontrado" });
@@ -123,4 +123,6 @@ export const getProductsWithOptions = async (req, res) => {
     return res.status(500).json({ message: error });
   }
 };
+
+
 
