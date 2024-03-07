@@ -5,7 +5,7 @@ import {
         getById, 
         deleteById,
         getProductsWithOptions,
-        edit
+        editById,
         } from "../controllers/product.controllers.js";
 import { verifyUserToken } from "../models/verifyToken.js";
 import  validateFields  from "../validators/validateFields.js";
@@ -17,7 +17,8 @@ router.post("/create",createProduct);
 router.get("/getAll",getAll);
 router.get("/getById/:id", getById);
 router.get("/productsWithOptions/search",getProductsWithOptions);
-router.delete("/delet/:id", verifyUserToken , validateFields ,deleteById);
-router.patch("/edit/:id", edit);
+router.delete("/delete/:id",deleteById);
+router.patch("/edit/:id", validateFields, editById);
+router.patch("/visible/:id", validateFields, editById)
 
 export default router;
