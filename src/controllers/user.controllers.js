@@ -110,13 +110,17 @@ const editById = async (req, res) => {
   try {
     const { id } = req.params;
     const payload = req.body;
-    const queryOptions = {
-      returnDocument: "after",
-    };
+    // const queryOptions = {
+    //   returnDocument: "after",
+    // };
     // const response = await editUserByIdService(id, payload, queryOptions);
-    const response = await User.findByIdAndUpdate(id, payload, queryOptions);
-    if (!response) return res.status(404).json("Usuario no existente");
-    res.status(200).json("Usuario editado con exito");
+    const userUpdated = await User.findByIdAndUpdate(id, payload, {
+      new: true,
+      runValidators: true,
+    });
+    console.log(userUpdated);
+    if (!userUpdated) return res.status(404).json("Usuario no existente");
+    res.status(200).json({ message: "Usuario editado con exito", userUpdated });
   } catch (error) {
     res.status(500).json(error.message);
   }
