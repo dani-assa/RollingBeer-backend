@@ -34,5 +34,8 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
-
+userSchema.methods.toJSON = function () {
+  const { password, ...user } = this.toObject();
+  return user;
+};
 export default model("User", userSchema);
