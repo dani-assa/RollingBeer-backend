@@ -7,7 +7,7 @@ import {
         getProductsWithOptions,
         editById,
         } from "../controllers/product.controllers.js";
-import { verifyUserToken } from "../models/verifyToken.js";
+import { verifyUserToken } from "../validators/verifyToken.js";
 import  validateFields  from "../validators/validateFields.js";
 
 
