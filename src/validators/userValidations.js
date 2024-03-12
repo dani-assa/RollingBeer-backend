@@ -1,6 +1,7 @@
 import { body } from "express-validator";
 import User from "../models/user.model.js";
 import passRegex from "../helpers/passwordRegex.js";
+import { comparePasswords } from "../helpers/comparePassword.js";
 
 const emailExistsValidation = async (email) => {
   const emailExists = await User.find({ email: email });
@@ -30,6 +31,11 @@ const checkPasswordValidation = async (req) => {
 };
 
 const userValidations = {
+  name: body("name")
+    .not()
+    .isEmpty()
+    .withMessage("El nombre es requerido")
+  ,
   email: body("email")
     .isEmail()
     .withMessage("El email no es valido")
