@@ -1,5 +1,5 @@
 import  Jwt  from "jsonwebtoken";
-import { TOKEN } from "../services/user.services.js";
+import { TOKEN_SECRET } from "../server/server.js";
 
 export const verifyUserToken = (req,res,next) => {
   const token = req.header("auth-token");
@@ -9,7 +9,7 @@ export const verifyUserToken = (req,res,next) => {
   }
 
   try {
-    const verify = Jwt.verify(token, SECRET);
+    const verify = Jwt.verify(token, TOKEN_SECRET);
     req.userToken = verify;
     next();
   } catch (error) {
