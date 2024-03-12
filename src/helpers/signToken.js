@@ -10,7 +10,7 @@ export const signToken = (user) => {
     TOKEN_SECRET
   );
 
-  const key = user.role === "User" ? USER_KEY : ADMIN_KEY;
+  const key = user.role === "client" ? USER_KEY : ADMIN_KEY;
 
   const authObj = {
     token: signedToken,
