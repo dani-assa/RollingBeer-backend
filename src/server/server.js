@@ -2,7 +2,7 @@ import  express from "express";
 const app = express();
 import  dotenv  from 'dotenv';
 import '../dbConenection/dbConnection.js'
-export const port = parseInt(process.env.PORT) || 8000;
+export const port = process.env.PORT || 8000;
 export const ADMIN_KEY = process.env.ADMIN_KEY;
 export const USER_KEY = process.env.USER_KEY;
 import morgan from 'morgan';
@@ -25,8 +25,8 @@ app.use(cookieParser());
 
 
 
-app.use("/api/user", userRoutes);
-app.use("/api/product",productRoutes);
+app.use("/user", userRoutes);
+app.use("/product",productRoutes);
 
 app.listen(port, () => {
   console.log(`Estamos escuchando el puerto ${port}`);
