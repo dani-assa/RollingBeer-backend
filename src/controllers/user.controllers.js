@@ -1,5 +1,6 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
+import bcrypt from 'bcryptjs'
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 import { hashPassword } from "../helpers/hashPassword.js";
 import { signToken } from "../helpers/signToken.js";
@@ -33,98 +34,98 @@ const getById = async (req, res) => {
   }
 };
 
-// const create = async (req, res) => {
-//   try {
-//     const { name, lastName, email, dni, userName, password } = req.body;
-
-//     // const userFound = await User.findOne({ email });
-//     // if (userFound)
-//     //   return res
-//     //     .status(400)
-//     //     .json(["Ya existe un usuario registrado con ese email"]);
-
-//     const passwordHash = await bcrypt.hash(password, 10);
-//     const newUser = new User({
-//       name,
-//       lastName,
-//       email,
-//       userName,
-//       dni,
-//       password: passwordHash,
-//     });
-//     const userSaved = await newUser.save();
-//     const token = await createAccessToken({ id: userSaved._id });
-//     res.cookie("token", token);
-//     res.status(201).json({
-//       id: userSaved._id,
-//       name: userSaved.name,
-//       userName: userSaved.userName,
-//       dni: userSaved.dni,
-//       email: userSaved.email,
-//       createdAt: userSaved.createdAt,
-//       updatedAt: userSaved.updatedAt,
-//       role: userSaved.role,
-//     });
-//   } catch (error) {
-//     res.status(500).json({ message: error });
-//   }
-// };
-
 const create = async (req, res) => {
-  const { email, password } = req.body;
-
   try {
-    const newUser = User({
-      email: email,
-      password: password,
-    });
+    const { name, lastName, email, dni, userName, password } = req.body;
 
-    const hashedPassword = await hashPassword(password);
-    newUser.password = hashedPassword;
-    newUser.save();
-    const authCredentials = signToken(newUser);
-    res.status(201).json(authCredentials);
+    // const userFound = await User.findOne({ email });
+    // if (userFound)
+    //   return res
+    //     .status(400)
+    //     .json(["Ya existe un usuario registrado con ese email"]);
+
+    const passwordHash = await bcrypt.hash(password, 10);
+    const newUser = new User({
+      name,
+      lastName,
+      email,
+      userName,
+      dni,
+      password: passwordHash,
+    });
+    const userSaved = await newUser.save();
+    const token = await createAccessToken({ id: userSaved._id });
+    res.cookie("token", token);
+    res.status(201).json({
+      id: userSaved._id,
+      name: userSaved.name,
+      userName: userSaved.userName,
+      dni: userSaved.dni,
+      email: userSaved.email,
+      createdAt: userSaved.createdAt,
+      updatedAt: userSaved.updatedAt,
+      role: userSaved.role,
+    });
   } catch (error) {
-    res.status(500).json(error);
+    res.status(500).json({ message: error });
   }
 };
 
+// const create = async (req, res) => {
+//   const { email, password } = req.body;
 
-// const login = async (req, res) => {
 //   try {
-//     const { email, password } = req.body;
-//     const userFound = await User.findOne({ email });
-//     if (!userFound) return res.status(400).json(["Usuario no existente."]);
-//     const isMatch = await bcrypt.compare(password, userFound.password);
-//     if (!isMatch)
-//       return res.status(400).json(["Usuario y/o contraseña incorrectos."]);
-
-//     const token = await createAccessToken({ id: userFound._id });
-//     res.cookie("token", token);
-//     res.status(201).json({
-//       id: userFound._id,
-//       name: userFound.name,
-//       userName: userFound.userName,
-//       email: userFound.email,
-//       role: userFound.role,
-//       createdAt: userFound.createdAt,
-//       updatedAt: userFound.updatedAt,
+//     const newUser = User({
+//       email: email,
+//       password: password,
 //     });
+
+//     const hashedPassword = await hashPassword(password);
+//     newUser.password = hashedPassword;
+//     newUser.save();
+//     const authCredentials = signToken(newUser);
+//     res.status(201).json(authCredentials);
 //   } catch (error) {
-//     res.status(500).json(error.message);
-//     console.log(error);
+//     res.status(500).json(error);
 //   }
 // };
 
+
 const login = async (req, res) => {
-  const { email, password } = req.body;
+  try {
+    const { email, password } = req.body;
+    const userFound = await User.findOne({ email });
+    if (!userFound) return res.status(400).json(["Usuario no existente."]);
+    const isMatch = await bcrypt.compare(password, userFound.password);
+    if (!isMatch)
+      return res.status(400).json(["Usuario y/o contraseña incorrectos."]);
 
-  const user = await User.findOne({ email: email });
-  const authCredentials = signToken(user);
-
-
-  res.status(200).json(authCredentials);
+    const token = await createAccessToken({ id: userFound._id });
+    res.cookie("token", token);
+    res.status(201).json({
+      id: userFound._id,
+      name: userFound.name,
+      userName: userFound.userName,
+      email: userFound.email,
+      role: userFound.role,
+      createdAt: userFound.createdAt,
+      updatedAt: userFound.updatedAt,
+    });
+  } catch (error) {
+    res.status(500).json(error.message);
+    
+  }
 };
+
+// const login = async (req, res) => {
+//   const { email, password } = req.body;
+
+//   const user = await User.findOne({ email: email });
+//   const authCredentials = signToken(user);
+
+
+//   res.status(200).json(authCredentials);
+// };
 
 const logout = (req, res) => {
   try {
