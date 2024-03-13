@@ -38,11 +38,11 @@ const create = async (req, res) => {
   try {
     const { name, lastName, email, dni, userName, password } = req.body;
 
-    // const userFound = await User.findOne({ email });
-    // if (userFound)
-    //   return res
-    //     .status(400)
-    //     .json(["Ya existe un usuario registrado con ese email"]);
+    const userFound = await User.findOne({ email });
+    if (userFound)
+      return res
+        .status(400)
+        .json(["Ya existe un usuario registrado con ese email"]);
 
     const passwordHash = await bcrypt.hash(password, 10);
     const newUser = new User({
@@ -150,7 +150,6 @@ const editById = async (req, res) => {
       new: true,
       runValidators: true,
     });
-    console.log(userUpdated);
     if (!userUpdated) return res.status(404).json("Usuario no existente");
     res.status(200).json({ message: "Usuario editado con exito", userUpdated });
   } catch (error) {
@@ -184,12 +183,11 @@ const admin = async (req, res) => {
 const verifyToken = async (req, res) => {
   try {
     const { token } = req.cookies;
-
     if (!token) return res.status(401).json({ message: "No autorizado" });
     jwt.verify(token, TOKEN_SECRET, async (error, user) => {
       if (error) return res.status(401).json({ message: "No autorizado" });
 
-      const userFound = await User.findById(user._id);
+      const userFound = await User.findById(user.id);
       if (!userFound) return res.status(401).json({ message: "No autorizado" });
 
       return res.json({
