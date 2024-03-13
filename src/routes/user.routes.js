@@ -39,3 +39,4 @@ router.get("/admin", userRequired, admin);
 router.get("/verifyToken", verifyToken);
 
 export default router;
+
