@@ -14,7 +14,7 @@ const {
 import  userRequired  from '../validators/validateToken.js';
 import  userValidations from '../validators/userValidations.js';
 import validateFields from '../validators/validateFields.js';
-
+import loginValidation from "../validators/userValidations.js"
 
 const router = Router();
 
@@ -22,7 +22,7 @@ router.get("/getAll", getAll);
 
 router.get("/getById/:id", getById);
 
-router.post("/login", login);
+router.post("/login",[loginValidation.email, loginValidation.password], validateFields, login);
 
 router.post("/logout", logout);
 
@@ -36,7 +36,7 @@ router.delete("/delete/:id", deleteById);
 
 router.get("/admin", userRequired, admin);
 
-router.get("/verifyToken", verifyToken);
+// router.get("/verifyToken", verifyToken);
 
 export default router;
 
