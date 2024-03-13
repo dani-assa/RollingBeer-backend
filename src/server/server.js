@@ -2,7 +2,7 @@ import  express from "express";
 const app = express();
 import  dotenv  from 'dotenv';
 import '../dbConenection/dbConnection.js'
-export const port = process.env.PORT || 8000;
+export const port = parseInt(process.env.PORT) || 8000;
 export const ADMIN_KEY = process.env.ADMIN_KEY;
 export const USER_KEY = process.env.USER_KEY;
 export const TOKEN_SECRET = process.env.TOKEN_SECRET
