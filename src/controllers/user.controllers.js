@@ -43,6 +43,7 @@ const create = async (req, res) => {
       return res
         .status(400)
         .json(["Ya existe un usuario registrado con ese email"]);
+        console.log(res);
 
     const passwordHash = await bcrypt.hash(password, 10);
     const newUser = new User({
@@ -67,7 +68,9 @@ const create = async (req, res) => {
       role: userSaved.role,
     });
   } catch (error) {
+    
     res.status(500).json({ message: error });
+    
   }
 };
 
