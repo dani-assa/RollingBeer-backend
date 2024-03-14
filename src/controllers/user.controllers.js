@@ -71,25 +71,6 @@ const create = async (req, res) => {
   }
 };
 
-// const create = async (req, res) => {
-//   const { email, password } = req.body;
-
-//   try {
-//     const newUser = User({
-//       email: email,
-//       password: password,
-//     });
-
-//     const hashedPassword = await hashPassword(password);
-//     newUser.password = hashedPassword;
-//     newUser.save();
-//     const authCredentials = signToken(newUser);
-//     res.status(201).json(authCredentials);
-//   } catch (error) {
-//     res.status(500).json(error);
-//   }
-// };
-
 
 const login = async (req, res) => {
   try {
