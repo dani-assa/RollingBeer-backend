@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
-import bcrypt from 'bcryptjs'
+import bcrypt from "bcryptjs";
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 import { hashPassword } from "../helpers/hashPassword.js";
 import { signToken } from "../helpers/signToken.js";
@@ -38,11 +38,17 @@ const create = async (req, res) => {
   try {
     const { name, lastName, email, dni, userName, password } = req.body;
 
-    const userFound = await User.findOne({ email });
-    if (userFound)
+    const userFoundEmail = await User.findOne({ email });
+    if (userFoundEmail)
       return res
         .status(400)
         .json(["Ya existe un usuario registrado con ese email"]);
+
+    const userFoundDni = await User.findOne({ dni });
+    if (userFoundDni)
+      return res
+        .status(400)
+        .json(["Ya existe un usuario registrado con ese DNI"]);
 
     const passwordHash = await bcrypt.hash(password, 10);
     const newUser = new User({
@@ -71,7 +77,6 @@ const create = async (req, res) => {
   }
 };
 
-
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -94,19 +99,8 @@ const login = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json(error.message);
-    
   }
 };
-
-// const login = async (req, res) => {
-//   const { email, password } = req.body;
-
-//   const user = await User.findOne({ email: email });
-//   const authCredentials = signToken(user);
-
-
-//   res.status(200).json(authCredentials);
-// };
 
 const logout = (req, res) => {
   try {

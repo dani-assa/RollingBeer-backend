@@ -22,14 +22,14 @@ const userSchema = new Schema(
       type: String,
       required: [true, "El campo es requerido"],
     },
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
     role: {
       type: String,
       enum: ["admin", "client"],
       default: "client",
-    },
-    disabled: {
-      type: Boolean,
-      defaul: false,
     },
   },
   { timestamps: true }
