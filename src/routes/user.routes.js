@@ -26,7 +26,7 @@ router.post("/login", login);
 
 router.post("/logout", logout);
 
-router.post("/create", [userValidations.email, userValidations.password,userValidations.username, userValidations.dni],validateFields, create);
+router.post("/create", [userValidations.email, userValidations.password],validateFields, create);
 
 router.patch("/editById/:id", editById);
 
