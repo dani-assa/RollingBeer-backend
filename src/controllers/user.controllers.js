@@ -43,6 +43,7 @@ const create = async (req, res) => {
       return res
         .status(400)
         .json(["Ya existe un usuario registrado con ese email"]);
+        console.log(res);
 
     const userFoundDni = await User.findOne({ dni });
     if (userFoundDni)
@@ -73,7 +74,9 @@ const create = async (req, res) => {
       role: userSaved.role,
     });
   } catch (error) {
+    
     res.status(500).json({ message: error });
+    
   }
 };
 
@@ -135,7 +138,7 @@ const editById = async (req, res) => {
 const deleteById = async (req, res) => {
   try {
     const { id } = req.params;
-    const response = await deleteUserService(id);
+    const response = await User.findByIdAndDelete(id);
     if (!response) return res.status(404).json("Usuario no existente");
     res.status(204).json();
   } catch (error) {

@@ -5,9 +5,9 @@ export const createProduct = async (req, res) => {
   const { name, image, price, cantidad, description, category } = req.body;
   const { userToken } = req;
   
-  if (userToken.role !== "admin") {
-    return res.status(403).json({ message: "Acceso denegado" });
-  }
+  // if (userToken.role !== "admin") {
+  //   return res.status(403).json({ message: "Acceso denegado" });
+  // }
 
   try {
     const newProduct = await Product.create({
@@ -20,10 +20,13 @@ export const createProduct = async (req, res) => {
     });
 
     res.status(201).json({ _id: newProduct._id });
+    
   } catch (error) {
+    console.log(error)
     return res.status(500).json({ message: error.message });
+    
   }
-  }
+}
 
 
 export const getAll = async (req, res) => {
