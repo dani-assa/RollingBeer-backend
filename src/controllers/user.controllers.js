@@ -138,7 +138,7 @@ const editById = async (req, res) => {
 const deleteById = async (req, res) => {
   try {
     const { id } = req.params;
-    const response = await deleteUserService(id);
+    const response = await User.findByIdAndDelete(id);
     if (!response) return res.status(404).json("Usuario no existente");
     res.status(204).json();
   } catch (error) {
