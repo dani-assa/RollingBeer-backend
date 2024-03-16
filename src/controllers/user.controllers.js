@@ -84,7 +84,10 @@ const login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const userFound = await User.findOne({ email });
+
     if (!userFound) return res.status(400).json(["Usuario no existente."]);
+    if (userFound.disabled) return res.status(400).json(["La cuenta está desactivada."]); 
+
     const isMatch = await bcrypt.compare(password, userFound.password);
     if (!isMatch)
       return res.status(400).json(["Usuario y/o contraseña incorrectos."]);
@@ -119,11 +122,20 @@ const logout = (req, res) => {
 const editById = async (req, res) => {
   try {
     const { id } = req.params;
-    const payload = req.body;
-    // const queryOptions = {
-    //   returnDocument: "after",
-    // };
-    // const response = await editUserByIdService(id, payload, queryOptions);
+    const { disabled, ...payload } = req.body; 
+
+    if (typeof disabled !== 'undefined' && disabled === true) {
+      const user = await User.findByIdAndUpdate(id, { disabled: true });
+      if (!user) return res.status(404).json("Usuario no existente");
+      return res.status(200).json({ message: "Usuario desactivado correctamente" });
+    }
+
+    if (typeof disabled !== 'undefined' && disabled === false) {
+      const user = await User.findByIdAndUpdate(id, { disabled: false });
+      if (!user) return res.status(404).json("Usuario no existente");
+      return res.status(200).json({ message: "Usuario activado correctamente" });
+    }
+
     const userUpdated = await User.findByIdAndUpdate(id, payload, {
       new: true,
       runValidators: true,
@@ -134,6 +146,7 @@ const editById = async (req, res) => {
     res.status(500).json(error.message);
   }
 };
+
 
 const deleteById = async (req, res) => {
   try {
