@@ -127,5 +127,23 @@ export const getProductsWithOptions = async (req, res) => {
   }
 };
 
+export const toggleFavorite = async (req, res) => {
+  const { id } = req.params;
+  const { isFavorite } = req.body;
 
+  try {
+    const product = await Product.findById(id);
+
+    if (!product) {
+      return res.status(404).json({ message: 'Producto no encontrado' });
+    }
+
+    product.isFavorite = isFavorite;
+    await product.save();
+
+    res.status(200).json({ message: 'Estado de favorito del producto actualizado' });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
 

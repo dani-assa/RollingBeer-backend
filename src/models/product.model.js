@@ -42,6 +42,9 @@ const productSchema = new Schema({
     type: Boolean,
     default: true,
   },
+  isFavorite: {
+     type: Boolean, 
+     default: false }
 },{
   timestamps: true
 });
