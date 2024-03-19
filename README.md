@@ -1,8 +1,6 @@
 # Rolling Beer - Backend
 ![Logo](https://i.postimg.cc/5ybmDbQ5/Logo-Rolling-Beer.png)
 
-![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
-
 [Repositorio Frontend](https://github.com/dani-assa/RollingBeer)
 
 ---
