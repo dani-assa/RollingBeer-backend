@@ -2,18 +2,13 @@ import User from "../models/user.model.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
-import { hashPassword } from "../helpers/hashPassword.js";
-import { signToken } from "../helpers/signToken.js";
 
 import {
-  getAllUserService,
-  getUserByIdService,
   createAccessToken,
 } from "../services/user.services.js";
 
 const getAll = async (req, res) => {
   try {
-    // const response = await getAllUserService();
     const response = await User.find();
     res.status(200).json(response);
   } catch (error) {
@@ -24,7 +19,6 @@ const getAll = async (req, res) => {
 const getById = async (req, res) => {
   try {
     const { id } = req.params;
-    // const response = await getUserByIdService(_id);
     const response = await User.findById(id);
     if (!response) return res.status(404).json("Usuario no existente.");
     res.status(200).json(response);
