@@ -1,13 +1,7 @@
 import Product from "../models/product.model.js"
-// import {verifyUserToken} from "../validators/verifyToken.js"
 
 export const createProduct = async (req, res) => {
   const { name, image, price, cantidad, description, category } = req.body;
-  const { userToken } = req;
-  
-  // if (userToken.role !== "admin") {
-  //   return res.status(403).json({ message: "Acceso denegado" });
-  // }
 
   try {
     const newProduct = await Product.create({
@@ -30,11 +24,6 @@ export const createProduct = async (req, res) => {
 
 
 export const getAll = async (req, res) => {
-  const { userToken } = req;
-  
-  // if ( userToken.role !== "admin") {
-  //   return res.status(403).json({message: "Acceso denegado"});
-  // }
   try {
     const products = await Product.find();
     res.status(200).json(products);
@@ -57,11 +46,6 @@ export const getById = async (req, res) => {
 
 export const deleteById = async (req, res) => {
   const { id } = req.params;
-  const { userToken } = req;
-  
-  // if ( userToken.role !== "admin") {
-  //   return res.status(403).json({message: "Acceso denegado"});
-  // }
 
   try {
     await Product.findByIdAndDelete(id);
@@ -74,11 +58,6 @@ export const deleteById = async (req, res) => {
 export const editById = async (req, res) => {
   const { id } = req.params;
   const payload = req.body;
-  // const { userToken } = req;
-  
-  // if ( userToken.role !== "Admin") {
-  //   return res.status(403).json({message: "Acceso denegado"});
-  // }
   try {
     const productUpdate = await Product.findByIdAndUpdate(id, payload,{ visible: false });
 

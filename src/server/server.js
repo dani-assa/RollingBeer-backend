@@ -24,7 +24,6 @@ app.use(
 app.use(cookieParser());
 
 
-
 app.use("/user", userRoutes);
 app.use("/product",productRoutes);
 
