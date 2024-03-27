@@ -3,9 +3,7 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 const TOKEN_SECRET = process.env.TOKEN_SECRET;
 
-import {
-  createAccessToken,
-} from "../services/user.services.js";
+import { createAccessToken } from "../services/user.services.js";
 
 const getAll = async (req, res) => {
   try {
@@ -37,7 +35,7 @@ const create = async (req, res) => {
       return res
         .status(400)
         .json(["Ya existe un usuario registrado con ese email"]);
-        console.log(res);
+    console.log(res);
 
     const userFoundDni = await User.findOne({ dni });
     if (userFoundDni)
@@ -56,7 +54,7 @@ const create = async (req, res) => {
     });
     const userSaved = await newUser.save();
     const token = await createAccessToken({ id: userSaved._id });
-    res.cookie("token", token);
+    res.cookie("token", token, { httpOnly: true, sameSite: "strict" });
     res.status(201).json({
       id: userSaved._id,
       name: userSaved.name,
@@ -68,9 +66,7 @@ const create = async (req, res) => {
       role: userSaved.role,
     });
   } catch (error) {
-    
     res.status(500).json({ message: error });
-    
   }
 };
 
@@ -80,14 +76,15 @@ const login = async (req, res) => {
     const userFound = await User.findOne({ email });
 
     if (!userFound) return res.status(400).json(["Usuario no existente."]);
-    if (userFound.disabled) return res.status(400).json(["La cuenta está desactivada."]); 
+    if (userFound.disabled)
+      return res.status(400).json(["La cuenta está desactivada."]);
 
     const isMatch = await bcrypt.compare(password, userFound.password);
     if (!isMatch)
       return res.status(400).json(["Usuario y/o contraseña incorrectos."]);
 
     const token = await createAccessToken({ id: userFound._id });
-    res.cookie("token", token);
+    res.cookie("token", token, { httpOnly: true, sameSite: "strict" });
     res.status(201).json({
       id: userFound._id,
       name: userFound.name,
@@ -116,18 +113,22 @@ const logout = (req, res) => {
 const editById = async (req, res) => {
   try {
     const { id } = req.params;
-    const { disabled, ...payload } = req.body; 
+    const { disabled, ...payload } = req.body;
 
-    if (typeof disabled !== 'undefined' && disabled === true) {
+    if (typeof disabled !== "undefined" && disabled === true) {
       const user = await User.findByIdAndUpdate(id, { disabled: true });
       if (!user) return res.status(404).json("Usuario no existente");
-      return res.status(200).json({ message: "Usuario desactivado correctamente" });
+      return res
+        .status(200)
+        .json({ message: "Usuario desactivado correctamente" });
     }
 
-    if (typeof disabled !== 'undefined' && disabled === false) {
+    if (typeof disabled !== "undefined" && disabled === false) {
       const user = await User.findByIdAndUpdate(id, { disabled: false });
       if (!user) return res.status(404).json("Usuario no existente");
-      return res.status(200).json({ message: "Usuario activado correctamente" });
+      return res
+        .status(200)
+        .json({ message: "Usuario activado correctamente" });
     }
 
     const userUpdated = await User.findByIdAndUpdate(id, payload, {
@@ -140,7 +141,6 @@ const editById = async (req, res) => {
     res.status(500).json(error.message);
   }
 };
-
 
 const deleteById = async (req, res) => {
   try {
