@@ -22,7 +22,7 @@ export const createAccessToken = async (payload) => {
       payload,
       TOKEN,
       {
-        expiresIn: "1d",
+        expiresIn: "4h",
       },
       (error, token) => {
         if (error) reject(error);
