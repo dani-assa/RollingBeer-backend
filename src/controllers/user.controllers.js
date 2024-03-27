@@ -84,7 +84,7 @@ const login = async (req, res) => {
       return res.status(400).json(["Usuario y/o contraseña incorrectos."]);
 
     const token = await createAccessToken({ id: userFound._id });
-    res.cookie("token", token, { httpOnly: true, sameSite: "strict" });
+    res.cookie("token", token, { expires: 1, httpOnly: true, sameSite: "strict" });
     res.status(201).json({
       id: userFound._id,
       name: userFound.name,
