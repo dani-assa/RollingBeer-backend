@@ -4,7 +4,7 @@ import jwt from "jsonwebtoken";
 export const TOKEN = process.env.TOKEN_SECRET;
 
 export const getAllUserService = async () => {
-  return await find();
+  return await User.find();
 };
 
 export const getUserByIdService = async (id) => {
@@ -37,5 +37,5 @@ export const editUserByIdService = async (id, payload, queryOptions) => {
 };
 
 export const deleteUserService = async (id) => {
-  return findByIdAndDelete(id);
+  return User.findByIdAndDelete(id);
 };
