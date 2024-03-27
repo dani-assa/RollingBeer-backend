@@ -16,7 +16,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: "https://main--rollingbeer1.netlify.",
+    origin: "https://main--rollingbeer1.netlify",
     credentials: true,
     withCredentials: true,
   })
