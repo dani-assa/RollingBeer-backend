@@ -10,7 +10,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import userRoutes from "../routes/user.routes.js";
 import productRoutes from "../routes/product.routes.js";
-import { createPreference } from '../controllers/mercadopago.js';
+// import { createPreference } from '../controllers/mercadopago.js';
 
 dotenv.config();
 app.use(express.json());
@@ -26,24 +26,24 @@ app.use(
 
 app.use(cookieParser());
 
-app.post("/create_preference", async (req, res) => {
-  try {
-    const items = req.body.items.map(item => ({
-      title: item.title,
-      quantity: item.quantity,
-      unit_price: item.unit_price,
-      currency_id: item.currency_id,
-    }));
-    const back_urls = req.body.back_urls;
-    const auto_return = req.body.auto_return;
+// app.post("/create_preference", async (req, res) => {
+//   try {
+//     const items = req.body.items.map(item => ({
+//       title: item.title,
+//       quantity: item.quantity,
+//       unit_price: item.unit_price,
+//       currency_id: item.currency_id,
+//     }));
+//     const back_urls = req.body.back_urls;
+//     const auto_return = req.body.auto_return;
 
-    const preferenceId = await createPreference({ items, back_urls, auto_return });
-    res.json({ id: preferenceId });
-  } catch (error) {
-    console.error('Error creating preference:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
+//     const preferenceId = await createPreference({ items, back_urls, auto_return });
+//     res.json({ id: preferenceId });
+//   } catch (error) {
+//     console.error('Error creating preference:', error);
+//     res.status(500).json({ error: 'Internal server error' });
+//   }
+// });
 
 app.use("/user", userRoutes);
 app.use("/product", productRoutes);
