@@ -17,8 +17,8 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(
   cors({
-    origin: 'https://main--rollingbeer1.netlify.app',
-    methods: ['GET', 'POST'],
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     credentials: true,
     withCredentials: true,
   })
