@@ -18,7 +18,7 @@ app.use(morgan("dev"));
 app.use(
   cors({
     origin: 'https://main--rollingbeer1.netlify.app',
-    methods: ['GET', 'POST'],
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
     credentials: true,
     withCredentials: true,
   })
